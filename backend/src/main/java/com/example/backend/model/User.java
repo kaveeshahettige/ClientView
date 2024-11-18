@@ -1,6 +1,7 @@
 package com.example.backend.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,6 +24,7 @@ public class User implements UserDetails {
     @Column(name="password")
     private String password;
 
+    @Getter
     @Enumerated(value=EnumType.STRING)
     private Role role;
 
@@ -34,12 +36,29 @@ public class User implements UserDetails {
 
     @Override
     public String getPassword() {
-        return "";
+
+        return password;
     }
 
     @Override
     public String getUsername() {
-        return "";
+        return username;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     @Override
@@ -61,4 +80,6 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+
 }
