@@ -15,16 +15,16 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
-    Integer id;
+    private Integer id;
 
     @Column(name="username")
-    String username;
+    private String username;
 
     @Column(name="password")
-    String password;
+    private String password;
 
     @Enumerated(value=EnumType.STRING)
-    Role role;
+    private Role role;
 
 
     @Override
