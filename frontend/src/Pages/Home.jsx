@@ -1,11 +1,21 @@
 import React from 'react'
 import clientviewlogo from '../assets/clinetviewlogo.jpg';
 import { NavLink, useLocation } from "react-router-dom";
+import { useState } from "react";
 
 const Home = () => {
     const location = useLocation();
     const username = localStorage.getItem('username') || 'Guest';
     const isActive = (path) => location.pathname === path;
+    const [showConfirmation, setShowConfirmation] = useState(false);
+
+  const handleLogout = () => {
+    // Clear JWT from local storage
+    localStorage.removeItem("token");
+
+    // Redirect user to login page
+    window.location.href = "/";
+  };
     return (
         <div className="flex bg-gray-100">
           {/* Sidebar */}
@@ -56,9 +66,13 @@ const Home = () => {
             <div className="mb-6">
                 <div className='flex justify-between mb-2'>
                 <h2 className="text-xl font-bold text-gray-800">Status</h2>
-                <button className=" py-2 px-4 bg-red-500 text-white rounded-lg hover:bg-red-600">
-            Logout
-             </button>
+                <button
+        onClick={() => setShowConfirmation(true)}
+        className="py-2 px-4 bg-red-500 text-white rounded-lg hover:bg-red-600"
+      >
+        Logout
+      </button>
+
                 </div>
                 <div className="flex flex-col w-full space-y-6">
   {/* Status Card */}
@@ -99,7 +113,35 @@ const Home = () => {
               </div>
             </div>
           </div>
+           {/* Confirmation Modal */}
+      {showConfirmation && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white rounded-lg p-6 w-96 shadow-lg">
+            <h3 className="text-lg font-bold text-gray-800 mb-4">
+              Confirm Logout
+            </h3>
+            <p className="text-sm text-gray-600 mb-6">
+              Are you sure you want to logout?
+            </p>
+            <div className="flex justify-end gap-4">
+              <button
+                onClick={() => setShowConfirmation(false)}
+                className="py-2 px-4 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleLogout}
+                className="py-2 px-4 bg-red-500 text-white rounded-lg hover:bg-red-600"
+              >
+                Logout
+              </button>
+            </div>
+          </div>
         </div>
+      )}
+        </div>
+        
       );
     };
 
