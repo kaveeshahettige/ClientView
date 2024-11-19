@@ -28,6 +28,12 @@ public class User implements UserDetails {
     @Enumerated(value=EnumType.STRING)
     private Role role;
 
+    @PrePersist
+    private void setDefaultRole() {
+        if (this.role == null) {
+            this.role = Role.ADMIN; // Set the default role as ADMIN
+        }
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -44,6 +50,8 @@ public class User implements UserDetails {
     public String getUsername() {
         return username;
     }
+
+
 
     public void setId(Integer id) {
         this.id = id;
